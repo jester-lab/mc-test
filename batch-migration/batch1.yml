@@ -1,0 +1,19 @@
+migration_data:
+  - gh_target_org_name: "test"
+    gh_target_repo_name: "test"
+    bbs_server_url: "path"
+    bbs_project_name: "test"
+    bbs_repo_name: "test"    
+    repo-props:
+      program_name: "id- name"
+      bb_project_name: "test"
+      bb_repo_name: "test"
+      repo_type: "app|deploy"
+      product_id: "test"
+      product_uuid: "test"
+      tech_asset_id: "test"
+      tech_asset_uuid: "test"
+      tech_asset_tag: "test"
+    tags:
+      - "bc_migration"
+      - "test"
