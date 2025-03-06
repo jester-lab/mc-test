@@ -1,11 +1,12 @@
-name: Create Issue from YAML
+name: Extract and Print YAML
 
 on:
   push:
     paths:
-      - "batch-migration/**"
+      - "subfolder/**"  # Change this to your target subfolder
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
   process_yaml:
@@ -21,50 +22,9 @@ jobs:
           FILE=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep 'subfolder/.*\.yaml' | head -n 1)
           echo "file=$FILE" >> $GITHUB_ENV
 
-      - name: Parse YAML file
+      - name: Parse and Print YAML
         if: env.file != ''
         uses: mikefarah/yq@v4
-        with:
-          args: |
-            BBS_SERVER_URL=$(yq e '.migration_data[0].bbs_server_url' "${{ env.file }}")
-            BBS_PROJECT=$(yq e '.migration_data[0].bbs_project_name' "${{ env.file }}")
-            BBS_REPO=$(yq e '.migration_data[0].bbs_repo_name' "${{ env.file }}")
-            GH_TARGET_ORG=$(yq e '.migration_data[0].gh_target_org_name' "${{ env.file }}")
-            PROGRAM_NAME=$(yq e '.migration_data[0].repo-props.program_name' "${{ env.file }}")
-            BB_PROJECT_NAME=$(yq e '.migration_data[0].repo-props.bb_project_name' "${{ env.file }}")
-            BB_REPO_NAME=$(yq e '.migration_data[0].repo-props.bb_repo_name' "${{ env.file }}")
-            REPO_TYPE=$(yq e '.migration_data[0].repo-props.repo_type' "${{ env.file }}")
-            PRODUCT_ID=$(yq e '.migration_data[0].repo-props.product_id' "${{ env.file }}")
-            PRODUCT_UUID=$(yq e '.migration_data[0].repo-props.product_uuid' "${{ env.file }}")
-            TECH_ASSET_ID=$(yq e '.migration_data[0].repo-props.tech_asset_id' "${{ env.file }}")
-            TECH_ASSET_UUID=$(yq e '.migration_data[0].repo-props.tech_asset_uuid' "${{ env.file }}")
-            TECH_ASSET_TAG=$(yq e '.migration_data[0].repo-props.tech_asset_tag' "${{ env.file }}")
-            ISSUE_BODY=$(cat <<EOF
-            {
-              "bbs-server-url": "$BBS_SERVER_URL",
-              "bbs-project": "$BBS_PROJECT",
-              "bbs-repo": "$BBS_REPO",
-              "gh_target_org_name": "$GH_TARGET_ORG",
-              "repo-props": {
-                "program_name": "$PROGRAM_NAME",
-                "bb_project_name": "$BB_PROJECT_NAME",
-                "bb_repo_name": "$BB_REPO_NAME",
-                "repo_type": "$REPO_TYPE",
-                "product_id": "$PRODUCT_ID",
-                "product_uuid": "$PRODUCT_UUID",
-                "tech_asset_id": "$TECH_ASSET_ID",
-                "tech_asset_uuid": "$TECH_ASSET_UUID",
-                "tech_asset_tag": "$TECH_ASSET_TAG"
-              }
-            }
-            EOF
-            )
-            echo "$ISSUE_BODY" > issue.json
-
-      - name: Create GitHub Issue
-        if: env.file != ''
-        uses: peter-evans/create-issue-from-file@v5
-        with:
-          title: "New Migration Data"
-          content-filepath: ./issue.json
-          labels: migration
+        run: |
+          YAML_FILE=${{ env.file }}
+          yq e '.' "$YAML_FILE"
