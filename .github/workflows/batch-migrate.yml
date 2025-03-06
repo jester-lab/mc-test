@@ -25,6 +25,5 @@ jobs:
       - name: Parse and Print YAML
         if: env.file != ''
         uses: mikefarah/yq@v4
-        run: |
-          YAML_FILE=${{ env.file }}
-          yq e '.' "$YAML_FILE"
+        with:
+          args: e '.' "${{ env.file }}"
