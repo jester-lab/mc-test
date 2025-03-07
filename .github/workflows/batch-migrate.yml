@@ -3,7 +3,7 @@ name: Extract and Print YAML
 on:
   push:
     paths:
-      - "batch-migration/**"  # Change this to your target subfolder
+      - "subfolder/**"  # Change this to your target subfolder
     branches:
       - main
   workflow_dispatch:
@@ -16,14 +16,31 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Print debug information
+        run: |
+          echo "Current branch: ${{ github.ref }}"
+          echo "Commit SHA: ${{ github.sha }}"
+          echo "Event name: ${{ github.event_name }}"
+          echo "Repository: ${{ github.repository }}"
+
       - name: Find new YAML file
         id: find_yaml
         run: |
-          FILE=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep 'batch-migration/.*\.yaml' | head -n 1)
+          echo "Finding new YAML file in subfolder"
+          FILE=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep 'subfolder/.*\.yaml' | head -n 1)
+          echo "Found file: $FILE"
           echo "file=$FILE" >> $GITHUB_ENV
+
+      - name: Debug environment variables
+        run: |
+          echo "Environment variables:"
+          printenv
 
       - name: Parse and Print YAML
         if: env.file != ''
         uses: mikefarah/yq@v4
         with:
           args: e '.' "${{ env.file }}"
+        run: |
+          echo "Parsing YAML file: ${{ env.file }}"
+          yq e '.' "${{ env.file }}"
