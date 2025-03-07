@@ -54,5 +54,5 @@ jobs:
         uses: peter-evans/create-issue-from-file@v4
         with:
           title: "New Issue from YAML"
-          content-filepath: "${{ converted.json }}"
+          content-filepath: "${{ env.file }}"
           token: ${{ secrets.GITHUB_TOKEN }}
