@@ -3,7 +3,7 @@ name: Extract and Print YAML
 on:
   push:
     paths:
-      - "subfolder/**"  # Change this to your target subfolder
+      - "batch-migration/**"  # Change this to your target subfolder
     branches:
       - main
   workflow_dispatch:
@@ -27,7 +27,7 @@ jobs:
         id: find_yaml
         run: |
           echo "Finding new YAML file in subfolder"
-          FILE=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep 'subfolder/.*\.yaml' | head -n 1)
+          FILE=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep 'batch-migration/.*\.yaml' | head -n 1)
           echo "Found file: $FILE"
           echo "file=$FILE" >> $GITHUB_ENV
 
