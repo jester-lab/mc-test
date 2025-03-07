@@ -49,10 +49,12 @@ jobs:
           cat "${{ env.file }}" | yq e -o=json > converted.json
           cat converted.json
           
-      - name: Create GitHub Issue
+      - name: Create GitHub Issue with JSON content
         if: env.file != ''
-        uses: peter-evans/create-issue-from-file@v4
-        with:
-          title: "New Issue from YAML"
-          content-filepath: "${{ env.file }}"
-          token: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "Creating GitHub issue with JSON content"
+          JSON_CONTENT=$(cat converted.json | jq -R -s '.')
+          curl -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+          -H "Accept: application/vnd.github.v3+json" \
+          https://api.github.com/repos/${{ github.repository }}/issues \
+          -d "{\"title\": \"New Issue from YAML\", \"body\": ${JSON_CONTENT}}"
