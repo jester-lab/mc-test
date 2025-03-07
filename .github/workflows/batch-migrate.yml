@@ -24,9 +24,8 @@ jobs:
       - name: Find new YAML file
         id: find_yaml
         run: |
-          echo "Finding new YAML file in subfolder"
-          
-          FILE=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep 'batch-migration/.*\.yaml' | head -n 1)
+          echo "Finding any YAML file in subfolder"
+          FILE=$(ls batch-migration/*.yaml | head -n 1)
           echo "Found file: $FILE"
           echo "file=$FILE" >> $GITHUB_ENV
 
