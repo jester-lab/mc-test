@@ -55,20 +55,20 @@ jobs:
         run: |
           echo "Mapping YAML to JSON format"
           cat converted.json | jq '{
-            "bbs-server-url": .bbs_server_url,  # Update these keys according to your YAML file structure
-            "bbs-project": .bbs_project,
-            "bbs-repo": .bbs_repo,
-            "gh_target_org_name": .gh_target_org_name,
+            "bbs-server-url": .migration_data[0].bbs_server_url, 
+            "bbs-project": .migration_data[0].bbs_project,
+            "bbs-repo": .migration_data[0].bbs_repo,
+            "gh_target_org_name": .migration_data[0].gh_target_org_name,
             "repo-props": {
-              "program_name": .repo_props.program_name,
-              "bb_project_name": .repo_props.bb_project_name,
-              "bb_repo_name": .repo_props.bb_repo_name,
-              "repo_type": .repo_props.repo_type,
-              "product_id": .repo_props.product_id,
-              "product_uuid": .repo_props.product_uuid,
-              "tech_asset_id": .repo_props.tech_asset_id,
-              "tech_asset_uuid": .repo_props.tech_asset_uuid,
-              "tech_asset_tag": .repo_props.tech_asset_tag
+              "program_name": .migration_data[0].repo_props.program_name,
+              "bb_project_name": .migration_data[0].repo_props.bb_project_name,
+              "bb_repo_name": .migration_data[0].repo_props.bb_repo_name,
+              "repo_type": .migration_data[0].repo_props.repo_type,
+              "product_id": .migration_data[0].repo_props.product_id,
+              "product_uuid": .migration_data[0].repo_props.product_uuid,
+              "tech_asset_id": .migration_data[0].repo_props.tech_asset_id,
+              "tech_asset_uuid": .migration_data[0].repo_props.tech_asset_uuid,
+              "tech_asset_tag": .migration_data[0].repo_props.tech_asset_tag
             }
           }' > mapped.json
           cat mapped.json
