@@ -55,10 +55,10 @@ jobs:
         run: |
           echo "Mapping YAML to JSON format"
           cat converted.json | jq '{
-            "bbs-server-url": .server_url,
-            "bbs-project": .project,
-            "bbs-repo": .repo,
-            "gh_target_org_name": .org_name,
+            "bbs-server-url": .bbs_server_url,  # Update these keys according to your YAML file structure
+            "bbs-project": .bbs_project,
+            "bbs-repo": .bbs_repo,
+            "gh_target_org_name": .gh_target_org_name,
             "repo-props": {
               "program_name": .repo_props.program_name,
               "bb_project_name": .repo_props.bb_project_name,
