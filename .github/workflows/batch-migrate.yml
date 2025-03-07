@@ -36,11 +36,14 @@ jobs:
           echo "Environment variables:"
           printenv
 
-      - name: Parse and Print YAML
+      - name: Parse YAML file
         if: env.file != ''
         uses: mikefarah/yq@v4
         with:
           args: e '.' "${{ env.file }}"
+
+      - name: Print parsed YAML
+        if: env.file != ''
         run: |
           echo "Parsing YAML file: ${{ env.file }}"
           yq e '.' "${{ env.file }}"
