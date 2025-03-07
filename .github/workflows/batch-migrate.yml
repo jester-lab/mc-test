@@ -41,13 +41,29 @@ jobs:
           echo "Parsing YAML file: ${{ env.file }}"
           yq e '.' "${{ env.file }}"
 
-      - name: Convert YAML to JSON
+      - name: Map YAML to JSON format
         if: env.file != ''
-        id: convert_yaml_to_json
+        id: map_yaml_to_json
         run: |
-          echo "Converting YAML to JSON"
-          cat "${{ env.file }}" | yq e -o=json > converted.json
-          cat converted.json
+          echo "Mapping YAML to JSON format"
+          cat converted.json | jq '{
+            "bbs-server-url": .server_url,
+            "bbs-project": .project,
+            "bbs-repo": .repo,
+            "gh_target_org_name": .org_name,
+            "repo-props": {
+              "program_name": .repo_props.program_name,
+              "bb_project_name": .repo_props.bb_project_name,
+              "bb_repo_name": .repo_props.bb_repo_name,
+              "repo_type": .repo_props.repo_type,
+              "product_id": .repo_props.product_id,
+              "product_uuid": .repo_props.product_uuid,
+              "tech_asset_id": .repo_props.tech_asset_id,
+              "tech_asset_uuid": .repo_props.tech_asset_uuid,
+              "tech_asset_tag": .repo_props.tech_asset_tag
+            }
+          }' > mapped.json
+          cat mapped.json
           
       - name: Create GitHub Issue with JSON content
         if: env.file != ''
