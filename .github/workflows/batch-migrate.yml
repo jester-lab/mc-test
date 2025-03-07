@@ -40,3 +40,19 @@ jobs:
         run: |
           echo "Parsing YAML file: ${{ env.file }}"
           yq e '.' "${{ env.file }}"
+
+      - name: Convert YAML to JSON
+        if: env.file != ''
+        id: convert_yaml_to_json
+        run: |
+          echo "Converting YAML to JSON"
+          cat "${{ env.file }}" | yq e -o=json > converted.json
+          cat converted.json
+          
+      - name: Create GitHub Issue
+        if: env.file != ''
+        uses: peter-evans/create-issue-from-file@v4
+        with:
+          title: "New Issue from YAML"
+          content-filepath: "${{ converted.json }}"
+          token: ${{ secrets.GITHUB_TOKEN }}
