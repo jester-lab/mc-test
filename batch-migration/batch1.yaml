@@ -4,8 +4,8 @@ migration_data:
     bbs_server_url: "path"
     bbs_project_name: "test"
     bbs_repo_name: "test"    
-    repo-props:
-      program_name: "id- name"
+    repo_props:
+      program_name: "id-name"
       bb_project_name: "test"
       bb_repo_name: "test"
       repo_type: "app|deploy"
