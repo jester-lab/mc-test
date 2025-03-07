@@ -60,15 +60,15 @@ jobs:
             "bbs-repo": .migration_data[0].bbs_repo_name,
             "gh_target_org_name": .migration_data[0].gh_target_org_name,
             "repo-props": {
-              "program_name": .migration_data[0].repo-props.program_name,
-              "bb_project_name": .migration_data[0].repo-props.bb_project_name,
-              "bb_repo_name": .migration_data[0].repo-props.bb_repo_name,
-              "repo_type": .migration_data[0].repo-props.repo_type,
-              "product_id": .migration_data[0].repo-props.product_id,
-              "product_uuid": .migration_data[0].repo-props.product_uuid,
-              "tech_asset_id": .migration_data[0].repo-props.tech_asset_id,
-              "tech_asset_uuid": .migration_data[0].repo-props.tech_asset_uuid,
-              "tech_asset_tag": .migration_data[0].repo-props.tech_asset_tag
+              "program_name": .migration_data[0].repo_props.program_name,
+              "bb_project_name": .migration_data[0].repo_props.bb_project_name,
+              "bb_repo_name": .migration_data[0].repo_props.bb_repo_name,
+              "repo_type": .migration_data[0].repo_props.repo_type,
+              "product_id": .migration_data[0].repo_props.product_id,
+              "product_uuid": .migration_data[0].repo_props.product_uuid,
+              "tech_asset_id": .migration_data[0].repo_props.tech_asset_id,
+              "tech_asset_uuid": .migration_data[0].repo_props.tech_asset_uuid,
+              "tech_asset_tag": .migration_data[0].repo_props.tech_asset_tag
             }
           }' > mapped.json
           cat mapped.json
